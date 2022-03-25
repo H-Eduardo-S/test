@@ -34,7 +34,21 @@ int main(int argc, char** argv)
       "Nine", "Ten", "Jack", "Queen", "King" };
 
     /* initialize deck array */
-    int deck[4][13] = { 0 };
+    int deck[4][13];
+
+    int k = 1;
+    do
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 13; j++)
+            {
+                deck[i][j] = k;
+                k++;
+
+            }
+        }
+    } while (k <= 52);
 
     /* definida a quantidade de colunas para impressão */
     int Ncolunas = Num_Colunas;
@@ -87,13 +101,13 @@ int main(int argc, char** argv)
             buffer[v] = '\0';
             deck[n / 13][n % 13] = atoi(buffer);
         }
-       
+
     }
     else {
         srand(time(0)); /* seed random-number generator */
         shuffle(deck);
     }
-    
+
     print_deck(deck, face, suit, Ncolunas);
 
     return 0; /* indicates successful termination */
@@ -108,19 +122,28 @@ void shuffle(int wDeck[][13])
     int card;   /* counter */
 
     /* for each of the 52 cards, choose slot of deck randomly */
-    for (card = 1; card <= 52; card++) {
 
-        /* choose new random location until unoccupied slot found */
-        do {
-            row = rand() % 4;
-            column = rand() % 13;
-        } while (wDeck[row][column] != 0); /* end do...while */
+    int c, d;
+    for (row = 0; row < 4; row++)
+    {
 
-        /* place card number in chosen slot of deck */
-        wDeck[row][column] = card;
-    } /* end for */
+        for (column = 0; column < 13; column++)
+        {
+            c = rand() % 4;
+
+            d = rand() % 13;
+
+            card = wDeck[row][column];
+            wDeck[row][column] = wDeck[c][d];
+            wDeck[c][d] = card;
+        }
+    }
+
+
+    /* end for */
 
 } /* end function shuffle */
+
 
 /* deal cards in deck */
 void deal(const int wDeck[][13], const char* wFace[],
@@ -207,7 +230,7 @@ void print_deck(const int wDeck[][13], const char* wFace[], const char* wSuit[],
                     }
                 }
 
-               
+
             }
 
         }
@@ -216,11 +239,11 @@ void print_deck(const int wDeck[][13], const char* wFace[], const char* wSuit[],
 
 }
 
-    //deal(wDeck, wFace, wSuit); // Esta chamada de função só está aqui como exemplo.
+//deal(wDeck, wFace, wSuit); // Esta chamada de função só está aqui como exemplo.
 
-    /* ... implemente o corpo da função print_deck */
+/* ... implemente o corpo da função print_deck */
 
-    /* NÃO MODIFIQUE O CÓDIGO ABAIXO */
+/* NÃO MODIFIQUE O CÓDIGO ABAIXO */
 
 
 /*
@@ -240,7 +263,7 @@ void print_deck(const int wDeck[][13], const char* wFace[], const char* wSuit[],
     uma coluna.
         A função print-deck deverá obedecer as mesmas regras de impressão das colunas utilizadas
     na implementação da função deal.
-        Adicionalmente, você deve atentar-se para o fato que após a impressão da string relativa 
-    a última carta, a função deve imprimir um <enter> (pula linha '\n'), como o faz no exemplo de 
+        Adicionalmente, você deve atentar-se para o fato que após a impressão da string relativa
+    a última carta, a função deve imprimir um <enter> (pula linha '\n'), como o faz no exemplo de
     duas colunas implementado na função deal.
 *////
